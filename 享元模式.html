@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>享元模式</title>
+  </head>
+  <body>
+    <span>
+      举个线程池的例子
+    </span>
+    <script>
+        
+      function threadFactory(createThreadMethod) {
+        let list = [];
+        return {
+          create: function(name) {
+            return list.length === 0 ? createThreadMethod(name) : list.shift();
+          },
+          recover: function(thread) {
+            list.push(thread);
+          }
+        };
+      }
+
+      function Thread(name) {
+        this.name = name;
+      }
+      Thread.prototype.getName = function() {
+        return this.name;
+      };
+
+      let threadP = threadFactory((name) => {
+        return new Thread(name);
+      });
+
+      let thread1 = threadP.create('thread1');
+      let thread2 = threadP.create('thread2');
+      let thread3 = threadP.create('thread3');
+      threadP.recover(thread1);
+      let thread4 = threadP.create('thread4');
+
+
+      //输出：thread1 thread2 thread3 thread1
+      console.log(
+        thread1.getName(),
+        thread2.getName(),
+        thread3.getName(),
+        thread4.getName()
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组合模式</title>
+</head>
+<body>
+ 
+</body>
+<script>
+    function ZH(){
+        return {
+            commandList:[],
+            add:function(command){
+                this.commandList.push(command);
+            },
+            excude:function(){
+                this.commandList.forEach(command=>{
+                    command.excude();
+                })
+            }
+        }
+    }
+
+    let command1 = {
+        excude:()=>console.log('打开门窗')
+    }
+    let command2 = {
+        excude:()=>console.log('打开窗帘') 
+    }
+    let command3 = {
+        excude:()=>console.log('打开台灯') 
+    }
+    let command4 = {
+        excude:()=>console.log('打开水龙头') 
+    }
+    let command5 = {
+        excude:()=>console.log('打开空调') 
+    }
+    let command6 = {
+        excude:()=>console.log('打开电视') 
+    }
+    let command7 = {
+        excude:()=>console.log('打开电扇') 
+    }
+
+    let ZH1 = ZH();
+    ZH1.add(command1);
+    ZH1.add(command2);
+    ZH1.add(command3);
+    ZH1.add(command4);
+
+    let ZH2 = ZH();
+    ZH1.add(command5);
+    ZH1.add(command6);
+    ZH1.add(command7);
+
+    let ZH_SUPER = ZH();
+    ZH_SUPER.add(ZH1);
+    ZH_SUPER.add(ZH2);
+
+    ZH_SUPER.excude();
+</script>
+</html>
